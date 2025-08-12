@@ -72,59 +72,35 @@ function ModeWrapper({ children, mode, appState }) {
         />
         
         <div className="main-content">
-          <div className="main-content-layout">
-            {/* Mode-specific Controls - Left Side */}
-            <div className="mode-controls">
-              {children}
-            </div>
-            
-            {/* View Toggle - Right Side */}
-            {(mode === 'study' || mode === 'test' || mode === 'ranges') && (
-              <div className="main-content-view-toggle">
-                <div className="view-toggle">
-                  <button 
-                    className={`view-btn ${appState.currentView === 'grid' ? 'active' : ''}`}
-                    onClick={() => appState.setCurrentView('grid')}
-                    title="Grid View"
-                  >
-                    Grid
-                  </button>
-                  <button 
-                    className={`view-btn ${appState.currentView === 'pattern' ? 'active' : ''}`}
-                    onClick={() => appState.setCurrentView('pattern')}
-                    title="Pattern View"
-                  >
-                    Pattern
-                  </button>
+          {/* Range Grid - shown first for study, test, and ranges modes */}
+          {mode !== 'handpractice' && (
+            <>
+              <div className="range-container">
+                <RangeGrid appState={appState} />
+              </div>
+              
+              <div className="legend">
+                <div className="legend-item">
+                  <div className="legend-color raise"></div>
+                  <span>Raise</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color call"></div>
+                  <span>Call</span>
+                </div>
+                <div className="legend-item">
+                  <div className="legend-color fold"></div>
+                  <span>Fold (default)</span>
                 </div>
               </div>
-            )}
+            </>
+          )}
+          
+          {/* Mode Controls - shown below grid or as main content for handpractice */}
+          <div className="mode-controls">
+            {children}
           </div>
         </div>
-        
-        {/* Range Grid - hidden in handpractice mode */}
-        {mode !== 'handpractice' && (
-          <>
-            <div className="range-container">
-              <RangeGrid appState={appState} />
-            </div>
-            
-            <div className="legend">
-              <div className="legend-item">
-                <div className="legend-color raise"></div>
-                <span>Raise</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-color call"></div>
-                <span>Call</span>
-              </div>
-              <div className="legend-item">
-                <div className="legend-color fold"></div>
-                <span>Fold (default)</span>
-              </div>
-            </div>
-          </>
-        )}
       </div>
     </div>
   );

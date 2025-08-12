@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { generateHandMatrix } from '../../utils/rangeUtils';
 
-// Test Mode component
+ // Test Mode component
 export default function TestMode({ appState }) {
   const [testResults, setTestResults] = useState(null);
   const [showResults, setShowResults] = useState(false);

@@ -71,6 +71,21 @@ export default function LeftNav({ appState, mobileMenuOpen, closeMobileMenu }) {
         >
           <span className="nav-label">Ranges</span>
         </button>
+        
+        {/* View Toggle - only show when not in handpractice mode */}
+        {!location.pathname.includes('/handpractice') && (
+          <div className="nav-view-toggle">
+            <label className="nav-view-label">View:</label>
+            <select 
+              className="nav-view-select"
+              value={appState.currentView}
+              onChange={(e) => appState.setCurrentView(e.target.value)}
+            >
+              <option value="grid">Grid</option>
+              <option value="pattern">Pattern</option>
+            </select>
+          </div>
+        )}
       </div>
     </nav>
   );
