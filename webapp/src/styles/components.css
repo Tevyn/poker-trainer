@@ -607,6 +607,45 @@
   box-sizing: border-box;
 }
 
+.bulk-action-buttons {
+  display: flex;
+  gap: var(--spacing-sm);
+  justify-content: center;
+  margin-top: var(--spacing-md);
+  margin-bottom: var(--spacing-sm);
+}
+
+.bulk-action-btn {
+  padding: var(--spacing-xs) var(--spacing-sm);
+  border: 1px solid var(--border-color);
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  border-radius: 4px;
+  font-weight: 500;
+  text-transform: uppercase;
+  font-size: 10px;
+  letter-spacing: 0.3px;
+  min-width: 70px;
+  transition: all 0.2s ease;
+}
+
+.bulk-action-btn:hover {
+  background-color: var(--bg-secondary);
+  border-color: var(--accent-primary);
+}
+
+.bulk-action-btn.raise-all:hover {
+  background-color: var(--raise-color);
+  border-color: var(--raise-color);
+  color: white;
+}
+
+.bulk-action-btn.fold-all:hover {
+  background-color: var(--fold-color);
+  border-color: var(--text-muted);
+  color: var(--text-secondary);
+}
+
 .current-hand-display {
   display: flex;
   justify-content: center;

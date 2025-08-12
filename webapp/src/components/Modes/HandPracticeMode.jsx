@@ -45,6 +45,18 @@ export default function HandPracticeMode({ appState }) {
     }));
   };
 
+  const selectAllRangesAction = (action) => {
+    const categoryData = savedRanges?.categories?.[currentPracticeCategory];
+    if (!categoryData) return;
+
+    const rangeIds = Object.keys(categoryData.ranges);
+    const allAnswers = {};
+    rangeIds.forEach(rangeId => {
+      allAnswers[rangeId] = action;
+    });
+    setMultiRangeAnswers(allAnswers);
+  };
+
   const checkAnswers = () => {
     const categoryData = savedRanges?.categories?.[currentPracticeCategory];
     if (!categoryData || !currentPracticeHand) return;
@@ -169,6 +181,23 @@ export default function HandPracticeMode({ appState }) {
                 ))
               }
             </div>
+            
+            {!showResults && (
+              <div className="bulk-action-buttons">
+                <button 
+                  className="bulk-action-btn raise-all"
+                  onClick={() => selectAllRangesAction('raise')}
+                >
+                  Raise All
+                </button>
+                <button 
+                  className="bulk-action-btn fold-all"
+                  onClick={() => selectAllRangesAction('fold')}
+                >
+                  Fold All
+                </button>
+              </div>
+            )}
             
             <div className="practice-actions">
               {!showResults ? (

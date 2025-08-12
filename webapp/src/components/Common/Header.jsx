@@ -138,6 +138,11 @@ export default function Header({ appState }) {
               onChange={handlePracticeCategoryChange}
             >
               <option value="open_raises">Open Raises</option>
+              <option value="vs_lj">vs. LJ</option>
+              <option value="vs_hj">vs. HJ</option>
+              <option value="vs_co">vs. CO</option>
+              <option value="vs_btn">vs. BTN</option>
+              <option value="vs_sb">vs. SB</option>
               <option value="facing_3bet">Facing 3-bet</option>
               <option value="facing_4bet">Facing 4-bet</option>
               <option value="facing_5bet_allin">Facing 5-bet All-in</option>
