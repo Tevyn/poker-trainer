@@ -1,7 +1,7 @@
 import { useNavigate, useLocation } from 'react-router-dom';
 
 // LeftNav component with mobile support
-export default function LeftNav({ appState }) {
+export default function LeftNav({ appState, mobileMenuOpen, closeMobileMenu }) {
   const navigate = useNavigate();
   const location = useLocation();
   
@@ -9,13 +9,8 @@ export default function LeftNav({ appState }) {
     navigate(path);
     
     // Close mobile menu on item click (for mobile)
-    if (window.innerWidth <= 768) {
-      const leftNav = document.getElementById('leftNav');
-      const navOverlay = document.getElementById('navOverlay');
-      
-      leftNav?.classList.remove('mobile-open');
-      navOverlay?.classList.remove('active');
-      document.body.style.overflow = '';
+    if (window.innerWidth <= 768 && closeMobileMenu) {
+      closeMobileMenu();
     }
   };
 
@@ -28,9 +23,19 @@ export default function LeftNav({ appState }) {
   };
 
   return (
-    <nav className="left-nav" id="leftNav">
+    <nav className={`left-nav ${mobileMenuOpen ? 'mobile-open' : ''}`} id="leftNav">
       <div className="nav-header">
         <h1>Poker Trainer</h1>
+        {/* Mobile close button */}
+        {mobileMenuOpen && (
+          <button 
+            className="mobile-close-btn"
+            onClick={closeMobileMenu}
+            aria-label="Close menu"
+          >
+            ×
+          </button>
+        )}
       </div>
       <div className="nav-content">
         <div className="nav-section">

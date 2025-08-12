@@ -1,8 +1,7 @@
 import { useEffect, useState } from 'react';
 
 // Header component with situation and practice category selectors
-export default function Header({ appState }) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+export default function Header({ appState, mobileMenuOpen, setMobileMenuOpen, closeMobileMenu }) {
   const {
     currentMode,
     savedRanges,
@@ -62,28 +61,8 @@ export default function Header({ appState }) {
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
-    const leftNav = document.getElementById('leftNav');
-    const navOverlay = document.getElementById('navOverlay');
-    
-    if (!mobileMenuOpen) {
-      leftNav?.classList.add('mobile-open');
-      navOverlay?.classList.add('active');
-      document.body.style.overflow = 'hidden';
-    } else {
-      leftNav?.classList.remove('mobile-open');
-      navOverlay?.classList.remove('active');
-      document.body.style.overflow = '';
-    }
-  };
-
-  const closeMobileMenu = () => {
-    setMobileMenuOpen(false);
-    const leftNav = document.getElementById('leftNav');
-    const navOverlay = document.getElementById('navOverlay');
-    
-    leftNav?.classList.remove('mobile-open');
-    navOverlay?.classList.remove('active');
-    document.body.style.overflow = '';
+    // Prevent body scroll when menu is open
+    document.body.style.overflow = mobileMenuOpen ? '' : 'hidden';
   };
 
   // Close mobile menu on window resize if screen gets larger

@@ -1,5 +1,5 @@
 import { MantineProvider } from '@mantine/core';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useAppState } from './hooks/useAppState';
 import LeftNav from './components/Navigation/LeftNav';
@@ -15,6 +15,12 @@ import './styles/components.css';
 // Component wrapper for each mode route
 function ModeWrapper({ children, mode, appState }) {
   const { isDragging, setIsDragging } = appState;
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+    document.body.style.overflow = '';
+  };
 
   // Global mouse event handlers for drag functionality
   useEffect(() => {
@@ -41,53 +47,58 @@ function ModeWrapper({ children, mode, appState }) {
 
   return (
     <div className="app-layout">
-      {/* Mobile Navigation Overlay */}
-      <div 
-        className="nav-overlay" 
-        id="navOverlay"
-        onClick={() => {
-          const leftNav = document.getElementById('leftNav');
-          const navOverlay = document.getElementById('navOverlay');
-          
-          leftNav?.classList.remove('mobile-open');
-          navOverlay?.classList.remove('active');
-          document.body.style.overflow = '';
-        }}
-      ></div>
+      {/* Mobile Navigation Backdrop */}
+      {mobileMenuOpen && (
+        <div 
+          className="mobile-backdrop" 
+          onClick={closeMobileMenu}
+        ></div>
+      )}
       
       {/* Left Navigation */}
-      <LeftNav appState={appState} />
+      <LeftNav 
+        appState={appState} 
+        mobileMenuOpen={mobileMenuOpen}
+        closeMobileMenu={closeMobileMenu}
+      />
       
       {/* Main Content Area */}
       <div className="main-container">
-        <Header appState={appState} />
+        <Header 
+          appState={appState}
+          mobileMenuOpen={mobileMenuOpen}
+          setMobileMenuOpen={setMobileMenuOpen}
+          closeMobileMenu={closeMobileMenu}
+        />
         
         <div className="main-content">
-          {/* View Toggle - Top Right of Main Content */}
-          {(mode === 'study' || mode === 'test' || mode === 'ranges') && (
-            <div className="main-content-view-toggle">
-              <div className="view-toggle">
-                <button 
-                  className={`view-btn ${appState.currentView === 'grid' ? 'active' : ''}`}
-                  onClick={() => appState.setCurrentView('grid')}
-                  title="Grid View"
-                >
-                  Grid
-                </button>
-                <button 
-                  className={`view-btn ${appState.currentView === 'pattern' ? 'active' : ''}`}
-                  onClick={() => appState.setCurrentView('pattern')}
-                  title="Pattern View"
-                >
-                  Pattern
-                </button>
-              </div>
+          <div className="main-content-layout">
+            {/* Mode-specific Controls - Left Side */}
+            <div className="mode-controls">
+              {children}
             </div>
-          )}
-          
-          {/* Mode-specific Controls */}
-          <div className="mode-controls">
-            {children}
+            
+            {/* View Toggle - Right Side */}
+            {(mode === 'study' || mode === 'test' || mode === 'ranges') && (
+              <div className="main-content-view-toggle">
+                <div className="view-toggle">
+                  <button 
+                    className={`view-btn ${appState.currentView === 'grid' ? 'active' : ''}`}
+                    onClick={() => appState.setCurrentView('grid')}
+                    title="Grid View"
+                  >
+                    Grid
+                  </button>
+                  <button 
+                    className={`view-btn ${appState.currentView === 'pattern' ? 'active' : ''}`}
+                    onClick={() => appState.setCurrentView('pattern')}
+                    title="Pattern View"
+                  >
+                    Pattern
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
         

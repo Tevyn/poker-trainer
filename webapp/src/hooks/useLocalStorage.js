@@ -94,10 +94,17 @@ export function useUserSettings() {
   const [defaultView, setDefaultView] = useLocalStorage('pokerDefaultView', 'pattern');
   const [currentView, setCurrentView] = useLocalStorage('currentView', null);
   
-  // Use default view if current view is not set
-  const activeView = currentView || defaultView;
+  // Check if we're on mobile (screen width <= 768px)
+  const isMobile = () => window.innerWidth <= 768;
+  
+  // Use default view if current view is not set, but force grid view on mobile
+  const activeView = isMobile() ? 'grid' : (currentView || defaultView);
   
   const updateCurrentView = (view) => {
+    // Prevent setting pattern view on mobile
+    if (isMobile() && view === 'pattern') {
+      return;
+    }
     setCurrentView(view);
   };
   
